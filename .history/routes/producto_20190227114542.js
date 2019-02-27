@@ -13,34 +13,27 @@ var Producto = require('../models/producto');
 // ==========================================
 app.get('/', (req, res, next) => {
 
-    var desde = req.query.desde || 0;
-    desde = Number(desde);
-
     Producto.find({}, 'codigo nombre presentacion nivel cantidad caducidad descripcion ')
-        .skip(desde)
-        .limit(5)
-        .exec(
-            (err, productos) => {
 
-                if (err) {
-                    return res.status(500).json({
-                        ok: false,
-                        mensaje: 'Error cargando producto',
-                        errors: err
-                    });
-                }
-                Producto.count({}, (err, conteo) => {
+    .exec(
+        (err, productos) => {
 
-                    res.status(200).json({
-                        ok: true,
-                        productos: productos,
-                        total: conteo
-                    });
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error cargando producto',
+                    errors: err
                 });
+            }
 
-
-
+            res.status(200).json({
+                ok: true,
+                productos: productos
             });
+
+
+
+        });
 });
 
 

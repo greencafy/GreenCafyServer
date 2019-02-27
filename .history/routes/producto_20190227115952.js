@@ -17,8 +17,7 @@ app.get('/', (req, res, next) => {
     desde = Number(desde);
 
     Producto.find({}, 'codigo nombre presentacion nivel cantidad caducidad descripcion ')
-        .skip(desde)
-        .limit(5)
+        .limit()
         .exec(
             (err, productos) => {
 
@@ -29,13 +28,11 @@ app.get('/', (req, res, next) => {
                         errors: err
                     });
                 }
-                Producto.count({}, (err, conteo) => {
 
-                    res.status(200).json({
-                        ok: true,
-                        productos: productos,
-                        total: conteo
-                    });
+                res.status(200).json({
+                    ok: true,
+                    productos: productos,
+
                 });
 
 

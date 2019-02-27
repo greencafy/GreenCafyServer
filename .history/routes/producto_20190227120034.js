@@ -29,13 +29,11 @@ app.get('/', (req, res, next) => {
                         errors: err
                     });
                 }
-                Producto.count({}, (err, conteo) => {
 
-                    res.status(200).json({
-                        ok: true,
-                        productos: productos,
-                        total: conteo
-                    });
+                res.status(200).json({
+                    ok: true,
+                    productos: productos,
+
                 });
 
 

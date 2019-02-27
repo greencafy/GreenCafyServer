@@ -29,14 +29,11 @@ app.get('/', (req, res, next) => {
                     });
                 }
 
-                Usuario.count({}, (err, conteo) => {
-
-                    res.status(200).json({
-                        ok: true,
-                        usuario: usuarios,
-                        total: conteo
-                    });
+                res.status(200).json({
+                    ok: true,
+                    usuarios: usuarios
                 });
+
 
 
             });

@@ -13,12 +13,8 @@ var Producto = require('../models/producto');
 // ==========================================
 app.get('/', (req, res, next) => {
 
-    var desde = req.query.desde || 0;
-    desde = Number(desde);
-
     Producto.find({}, 'codigo nombre presentacion nivel cantidad caducidad descripcion ')
-        .skip(desde)
-        .limit(5)
+        .populate('usuario', 'nombre email')
         .exec(
             (err, productos) => {
 
@@ -29,13 +25,10 @@ app.get('/', (req, res, next) => {
                         errors: err
                     });
                 }
-                Producto.count({}, (err, conteo) => {
 
-                    res.status(200).json({
-                        ok: true,
-                        productos: productos,
-                        total: conteo
-                    });
+                res.status(200).json({
+                    ok: true,
+                    productos: productos
                 });
 
 
@@ -124,8 +117,7 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
         caducidad: body.caducidad,
         precio: body.precio,
         descripcion: body.descripcion,
-        proveedor: body.proveedor,
-        usuario: req.usuario._id
+        proveedor: body.proveedor
     });
 
     producto.save((err, productoGuardado) => {
